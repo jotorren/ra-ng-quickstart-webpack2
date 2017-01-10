@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "primeng": "file:./node_modules/primeng/primeng.d.ts"
+  }
+}
