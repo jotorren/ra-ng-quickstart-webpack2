@@ -1,7 +1,7 @@
 {
   "name": "ra-ng-quickstart-webpack2",
   "version": "2.0.0-rc24",
-  "description": "ra-ng project quickstart with webpack2",
+  "description": "ra-ng project quickstart with Webpack2",
   "scripts": {
     "build:dev": "rimraf dist && webpack --config config/webpack.dev.js --progress --profile",
     "build:prod": "rimraf dist && webpack --config config/webpack.prod.js  --progress --profile --bail",
