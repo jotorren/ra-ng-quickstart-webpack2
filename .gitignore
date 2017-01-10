@@ -22,6 +22,8 @@ typings
 
 # Ignore transpiled code
 ###################
+src/*.js
+src/*.map
 src/app/**/*.js
 src/app/**/*.map
 e2e/**/*.js
