@@ -11,27 +11,39 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.ts', '.js']
+    extensions: ['.ts', '.js'],
+    alias: {
+      'app': helpers.root('src', 'app')
+    }
   },
 
   module: {
     loaders: [
       {
         test: /\.ts$/,
-        loaders: ['awesome-typescript-loader', 'angular2-template-loader']
+        loaders: ['awesome-typescript-loader', 'angular2-template-loader', 'angular-router-loader']
       },
       {
         test: /\.html$/,
         loader: 'html-loader'
       },
       {
-        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-        loader: 'file-loader?name=assets/[name].[hash].[ext]'
-      },
-      {
         test: /\.css$/,
         include: helpers.root('src', 'app'),
         loader: 'raw-loader'
+      },
+      {
+        test: /\.css$/,
+        exclude: helpers.root('src', 'app'),
+        loader: 'file-loader?name=assets/css/[name].[hash].[ext]'
+      },
+      {
+        test: /\.(png|jpe?g|gif|ico)$/,
+        loader: 'file-loader?name=assets/img/[name].[hash].[ext]'
+      },
+      {
+        test: /\.(svg|woff|woff2|ttf|eot)$/,
+        loader: 'file-loader?name=assets/fonts/[name].[hash].[ext]'
       }
     ]
   },
@@ -53,7 +65,6 @@ module.exports = {
       { context: 'src', from: '*.ico' },
       { context: 'src', from: 'environments/**/*.json' },
       { context: 'src', from: 'app/**/*.json' }
-
     ], {}),
 
     new HtmlWebpackPlugin({

@@ -11,7 +11,7 @@ module.exports = {
     loaders: [
       {
         test: /\.ts$/,
-        loaders: ['awesome-typescript-loader', 'angular2-template-loader']
+        loaders: ['awesome-typescript-loader', 'angular2-template-loader', 'angular-router-loader']
       },
       {
         test: /\.html$/,
@@ -19,8 +19,9 @@ module.exports = {
 
       },
       {
-        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-        loader: 'null-loader'
+        test: /\.css$/,
+        include: helpers.root('src', 'app'),
+        loader: 'raw-loader'
       },
       {
         test: /\.css$/,
@@ -28,9 +29,8 @@ module.exports = {
         loader: 'null-loader'
       },
       {
-        test: /\.css$/,
-        include: helpers.root('src', 'app'),
-        loader: 'raw-loader'
+        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
+        loader: 'null-loader'
       }
     ]
   }

@@ -17,21 +17,16 @@ module.exports = webpackMerge(commonConfig, {
 
   plugins: [
     new webpack.NoErrorsPlugin(),
+    
     new webpack.optimize.UglifyJsPlugin({ // https://github.com/angular/angular/issues/10618
       mangle: {
         keep_fnames: true
       }
     }),
+
     new webpack.DefinePlugin({
       'process.env': {
         'ENV': JSON.stringify(ENV)
-      }
-    }),
-    new webpack.LoaderOptionsPlugin({
-      options: {
-        htmlLoader: {
-          whateverProp: true
-        }
       }
     })
   ]
