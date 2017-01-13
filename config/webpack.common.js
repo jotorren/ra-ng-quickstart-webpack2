@@ -33,7 +33,8 @@ module.exports = {
        */
       {
         test: /\.ts$/,
-        use: ['awesome-typescript-loader', 'angular2-template-loader', 'ng-router-loader']
+        use: ['awesome-typescript-loader', 'angular2-template-loader', 'ng-router-loader'],
+        exclude: [/\.(spec|e2e)\.ts$/]
       },
 
       /*
