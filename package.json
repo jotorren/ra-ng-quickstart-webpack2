@@ -86,7 +86,6 @@
     "webdriver-manager": "11.1.1",
     "rimraf": "2.5.4",
 
-    "angular-router-loader": "0.5.0",
     "angular2-template-loader": "0.6.0",
     "awesome-typescript-loader": "3.0.0-beta.18",
     "copy-webpack-plugin": "4.0.1",
@@ -99,6 +98,7 @@
     "imports-loader": "0.7.0",
     "istanbul-instrumenter-loader": "1.2.0",
     "json-loader": "0.5.4",
+    "ng-router-loader": "1.0.2",
     "null-loader": "0.1.1",
     "raw-loader": "0.5.1",
     "script-ext-html-webpack-plugin": "1.4.1",
