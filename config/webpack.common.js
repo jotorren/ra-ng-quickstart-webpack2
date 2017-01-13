@@ -18,7 +18,20 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js', '.json'],
     alias: {
-      'app': helpers.root('src', 'app')
+      'app': helpers.root('src', 'app'),
+
+      '@angular/common': '@angular/common/bundles/common.umd.js',
+      '@angular/compiler': '@angular/compiler/bundles/compiler.umd.js',
+      '@angular/core': '@angular/core/bundles/core.umd.js',
+      '@angular/forms': '@angular/forms/bundles/forms.umd.js',
+      '@angular/http': '@angular/http/bundles/http.umd.js',
+      '@angular/platform-browser': '@angular/platform-browser/bundles/platform-browser.umd.js',
+      '@angular/platform-browser-dynamic': '@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js',
+      '@angular/router': '@angular/router/bundles/router.umd.js',
+
+      'ra-ng': 'ra-ng/bundles/ra-ng.umd.js',
+      'lodash': 'lodash/lodash.js',
+      'crypto-js':'crypto-js/crypto-js.js'
     }
   },
 
