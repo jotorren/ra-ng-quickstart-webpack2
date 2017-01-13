@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var helpers = require('./helpers');
@@ -96,6 +97,30 @@ module.exports = {
       name: ['app', 'vendor', 'polyfills']
     }),
 
+    /**
+     * Plugin: ContextReplacementPlugin
+     * Description: Provides context to Angular's use of System.import
+     *
+     * See: https://webpack.github.io/docs/list-of-plugins.html#contextreplacementplugin
+     * See: https://github.com/angular/angular/issues/11580
+     */
+    new ContextReplacementPlugin(
+      // The (\\|\/) piece accounts for path separators in *nix and Windows
+      /angular(\\|\/)core(\\|\/)src(\\|\/)linker/,
+      helpers.root('src'), // location of your src
+      {
+        // your Angular Async Route paths relative to this root directory
+      }
+    ),
+
+    /*
+     * Plugin: CopyWebpackPlugin
+     * Description: Copy files and directories in webpack.
+     *
+     * Copies project static assets.
+     *
+     * See: https://www.npmjs.com/package/copy-webpack-plugin
+     */
     new CopyWebpackPlugin([
       { context: 'src', from: 'assets/**/*' },
       { from: 'node_modules/bootstrap/dist/css/bootstrap.min.css', to: 'assets/css', toType: 'dir' },
