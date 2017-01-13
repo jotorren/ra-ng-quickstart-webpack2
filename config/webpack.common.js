@@ -23,7 +23,7 @@ module.exports = {
 
       '@angular/common': '@angular/common/bundles/common.umd.js',
       '@angular/compiler': '@angular/compiler/bundles/compiler.umd.js',
-      '@angular/core': '@angular/core/bundles/core.umd.js',
+      // '@angular/core': '@angular/core/bundles/core.umd.js',
       '@angular/forms': '@angular/forms/bundles/forms.umd.js',
       '@angular/http': '@angular/http/bundles/http.umd.js',
       '@angular/platform-browser': '@angular/platform-browser/bundles/platform-browser.umd.js',
