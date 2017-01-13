@@ -4,7 +4,7 @@ module.exports = {
   devtool: 'inline-source-map',
 
   resolve: {
-    extensions: ['.ts', '.js']
+    extensions: ['.ts', '.js', '.json'],
   },
 
   module: {
@@ -12,6 +12,10 @@ module.exports = {
       {
         test: /\.ts$/,
         use: ['awesome-typescript-loader', 'angular2-template-loader', 'ng-router-loader']
+      },
+      {
+        test: /\.json$/,
+        use: 'json-loader'
       },
       {
         test: /\.html$/,
