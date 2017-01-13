@@ -11,26 +11,26 @@ module.exports = {
     rules: [
       {
         test: /\.ts$/,
-        loaders: ['awesome-typescript-loader', 'angular2-template-loader', 'ng-router-loader']
+        use: ['awesome-typescript-loader', 'angular2-template-loader', 'ng-router-loader']
       },
       {
         test: /\.html$/,
-        loader: 'html-loader'
+        use: 'html-loader'
 
       },
       {
         test: /\.css$/,
         include: helpers.root('src', 'app'),
-        loader: 'raw-loader'
+        use: 'raw-loader'
       },
       {
         test: /\.css$/,
         exclude: helpers.root('src', 'app'),
-        loader: 'null-loader'
+        use: 'null-loader'
       },
       {
         test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-        loader: 'null-loader'
+        use: 'null-loader'
       }
     ]
   }

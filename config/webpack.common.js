@@ -33,7 +33,7 @@ module.exports = {
        */
       {
         test: /\.ts$/,
-        loaders: ['awesome-typescript-loader', 'angular2-template-loader', 'ng-router-loader']
+        use: ['awesome-typescript-loader', 'angular2-template-loader', 'ng-router-loader']
       },
 
       /*
@@ -53,7 +53,7 @@ module.exports = {
        */
       {
         test: /\.html$/,
-        loader: 'html-loader'
+        use: 'html-loader'
       },
 
       /* Raw loader support for *.css.
@@ -64,7 +64,7 @@ module.exports = {
       {
         test: /\.css$/,
         include: helpers.root('src', 'app'),
-        loader: 'raw-loader'
+        use: 'raw-loader'
       },
 
       /* File loader for not Angular components CSS.
@@ -72,21 +72,21 @@ module.exports = {
       {
         test: /\.css$/,
         exclude: helpers.root('src', 'app'),
-        loader: 'file-loader?name=assets/css/[name].[hash].[ext]'
+        use: 'file-loader?name=assets/css/[name].[hash].[ext]'
       },
 
       /* File loader for supporting images, for example, in CSS files.
        */
       {
         test: /\.(png|jpe?g|gif|ico)$/,
-        loader: 'file-loader?name=assets/img/[name].[hash].[ext]'
+        use: 'file-loader?name=assets/img/[name].[hash].[ext]'
       },
 
       /* File loader for supporting fonts.
        */
       {
         test: /\.(svg|woff|woff2|ttf|eot)$/,
-        loader: 'file-loader?name=assets/fonts/[name].[hash].[ext]'
+        use: 'file-loader?name=assets/fonts/[name].[hash].[ext]'
       }
     ]
   },
