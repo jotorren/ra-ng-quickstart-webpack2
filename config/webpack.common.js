@@ -10,8 +10,13 @@ module.exports = {
     'app': './src/app/main.ts'
   },
 
+  /*
+   * Options affecting the resolving of modules.
+   *
+   * See: http://webpack.github.io/docs/configuration.html#resolve
+   */
   resolve: {
-    extensions: ['.ts', '.js'],
+    extensions: ['.ts', '.js', '.json'],
     alias: {
       'app': helpers.root('src', 'app')
     }
@@ -19,28 +24,66 @@ module.exports = {
 
   module: {
     rules: [
+      /*
+       * Typescript loader support for .ts and Angular 2 async routes via .async.ts
+       * Replace templateUrl and stylesUrl with require()
+       *
+       * See: https://github.com/s-panferov/awesome-typescript-loader
+       * See: https://github.com/TheLarkInn/angular2-template-loader
+       */
       {
         test: /\.ts$/,
         loaders: ['awesome-typescript-loader', 'angular2-template-loader', 'ng-router-loader']
       },
+
+      /*
+       * Json loader support for *.json files.
+       *
+       * See: https://github.com/webpack/json-loader
+       */
+      {
+        test: /\.json$/,
+        use: 'json-loader'
+      },
+
+      /* Html loader support for *.html files.
+       * Exports HTML as string. HTML is minimized when the compiler demands.
+       *
+       * See: https://github.com/webpack/html-loader
+       */
       {
         test: /\.html$/,
         loader: 'html-loader'
       },
+
+      /* Raw loader support for *.css.
+       * Returns file content as string
+       *
+       * See: https://github.com/webpack/raw-loader
+       */
       {
         test: /\.css$/,
         include: helpers.root('src', 'app'),
         loader: 'raw-loader'
       },
+
+      /* File loader for not Angular components CSS.
+       */
       {
         test: /\.css$/,
         exclude: helpers.root('src', 'app'),
         loader: 'file-loader?name=assets/css/[name].[hash].[ext]'
       },
+
+      /* File loader for supporting images, for example, in CSS files.
+       */
       {
         test: /\.(png|jpe?g|gif|ico)$/,
         loader: 'file-loader?name=assets/img/[name].[hash].[ext]'
       },
+
+      /* File loader for supporting fonts.
+       */
       {
         test: /\.(svg|woff|woff2|ttf|eot)$/,
         loader: 'file-loader?name=assets/fonts/[name].[hash].[ext]'
