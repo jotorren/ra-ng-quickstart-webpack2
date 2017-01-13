@@ -1,5 +1,4 @@
 var webpack = require('webpack');
-var ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var helpers = require('./helpers');
@@ -7,7 +6,7 @@ var helpers = require('./helpers');
 module.exports = {
   entry: {
     'polyfills': './src/polyfills.ts',
-    'vendor': './src/vendor.ts',
+    // 'vendor': './src/vendor.ts',
     'app': './src/app/main.ts'
   },
 
@@ -93,8 +92,16 @@ module.exports = {
   },
 
   plugins: [
+    /*
+     * It identifies the hierarchy among three chunks: app -> vendor -> polyfills. 
+     * Where Webpack finds that app has shared dependencies with vendor, it removes them from app. 
+     * It would do the same if vendor and polyfills had shared dependencies (which they don't).
+     * 
+     * See: https://angular.io/docs/ts/latest/guide/webpack.html#!#configure-webpack
+     */
     new webpack.optimize.CommonsChunkPlugin({
-      name: ['app', 'vendor', 'polyfills']
+      // name: ['app', 'vendor', 'polyfills']
+      name: ['app', 'polyfills']
     }),
 
     /**
@@ -104,7 +111,7 @@ module.exports = {
      * See: https://webpack.github.io/docs/list-of-plugins.html#contextreplacementplugin
      * See: https://github.com/angular/angular/issues/11580
      */
-    new ContextReplacementPlugin(
+    new webpack.ContextReplacementPlugin(
       // The (\\|\/) piece accounts for path separators in *nix and Windows
       /angular(\\|\/)core(\\|\/)src(\\|\/)linker/,
       helpers.root('src'), // location of your src
