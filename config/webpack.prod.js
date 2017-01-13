@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var webpackMerge = require('webpack-merge');
 var commonConfig = require('./webpack.common.js');
+var CompressionPlugin = require("compression-webpack-plugin");
 var helpers = require('./helpers');
 
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
@@ -22,6 +23,14 @@ module.exports = webpackMerge(commonConfig, {
       mangle: {
         keep_fnames: true
       }
+    }),
+
+    new CompressionPlugin({
+      asset: "[path].gz[query]",
+      algorithm: "gzip",
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8
     }),
 
     new webpack.DefinePlugin({
