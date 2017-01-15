@@ -14,17 +14,19 @@
     "paths": {
         "app": ["app"]
     },
-    "typeRoots": [
-      "./node_modules/@types/",
-	    "./typings/modules"
-    ]
-    //"outDir": "dist",
-    //"sourceRoot": "/src"
+    "lib": ["dom","es6"],
+    "typeRoots": ["node_modules/@types/","typings/modules"]
   },
-  "compileOnSave": true,
+  "include": [
+    "src/**/*.ts"
+  ],
   "exclude": [
-    "node_modules/*",
-    "**/*-aot.ts",
-    "src/environments"
-  ]
+    "node_modules",
+    "dist",
+    "aot",
+    "e2e",
+    "src/environments",
+    "**/*-aot.ts"
+  ],
+  "compileOnSave": true
 }
