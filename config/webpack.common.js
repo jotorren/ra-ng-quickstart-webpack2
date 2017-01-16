@@ -1,13 +1,20 @@
+const ngcWebpack = require('ngc-webpack');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var helpers = require('./helpers');
 
+const AOT = helpers.hasNpmFlag('aot');
+
+if (AOT) {
+  console.log('AoT processing');
+}
+
 module.exports = {
   entry: {
     'polyfills': './src/polyfills.ts',
     // 'vendor': './src/vendor.ts',
-    'app': './src/app/main.ts'
+    'app': AOT ? './src/app/main-aot.ts' : './src/app/main.ts'
   },
 
   /*
@@ -17,7 +24,7 @@ module.exports = {
    */
   resolve: {
     extensions: ['.ts', '.js', '.json'],
-    alias: {
+    alias: AOT ? {} : {
       'app': helpers.root('src', 'app'),
 
       '@angular/common': '@angular/common/bundles/common.umd.js',
@@ -31,7 +38,7 @@ module.exports = {
 
       'ra-ng': 'ra-ng/bundles/ra-ng.umd.js',
       'lodash': 'lodash/lodash.js',
-      'crypto-js':'crypto-js/crypto-js.js'
+      'crypto-js': 'crypto-js/crypto-js.js'
     }
   },
 
@@ -46,7 +53,8 @@ module.exports = {
        */
       {
         test: /\.ts$/,
-        use: ['awesome-typescript-loader', 'angular2-template-loader', 'ng-router-loader'],
+        use: AOT ? ['awesome-typescript-loader?{configFileName: "tsconfig-aot.json"}', 'angular2-template-loader', 'ng-router-loader'] :
+          ['awesome-typescript-loader', 'angular2-template-loader', 'ng-router-loader'],
         exclude: [/\.(spec|e2e)\.ts$/]
       },
 
@@ -158,6 +166,11 @@ module.exports = {
 
     new HtmlWebpackPlugin({
       template: 'src/index.html'
+    }),
+
+    new ngcWebpack.NgcWebpackPlugin({
+      disabled: !AOT,
+      tsConfig: helpers.root('tsconfig-aot.json')
     })
   ]
 };

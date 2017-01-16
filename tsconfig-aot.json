@@ -12,10 +12,10 @@
     "suppressImplicitAnyIndexErrors": true,
     "baseUrl": "src",
     "paths": {
-        "app": ["app"]
+      "app": [ "app" ]
     },
-    "lib": ["dom","es2015"],
-    "typeRoots": ["node_modules/@types/","typings/modules"]
+    "lib": [ "dom", "es2015" ],
+    "typeRoots": [ "node_modules/@types/", "typings/modules" ]
   },
   "include": [
     "src/**/*.ts"
@@ -29,7 +29,7 @@
   ],
   "compileOnSave": true,
   "angularCompilerOptions": {
-   "genDir": "aot",
-   "skipMetadataEmit" : true
- }
+    "genDir": "aot",
+    "skipMetadataEmit": true
+  }
 }

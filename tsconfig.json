@@ -12,10 +12,10 @@
     "suppressImplicitAnyIndexErrors": true,
     "baseUrl": "src",
     "paths": {
-        "app": ["app"]
+      "app": [ "app" ]
     },
-    "lib": ["dom","es6"],
-    "typeRoots": ["node_modules/@types/","typings/modules"]
+    "lib": [ "dom", "es6" ],
+    "typeRoots": [ "node_modules/@types/", "typings/modules" ]
   },
   "include": [
     "src/**/*.ts"
