@@ -35,7 +35,7 @@ module.exports = function (config) {
 
     preprocessors: {
       './config/karma-test-shim.js': ['webpack', 'sourcemap'],
-      'src/**/!(*spec).js': ['coverage']
+      'src/**/!(*spec|*-aot).js': ['coverage']
     },
 
     webpack: webpackConfig,
