@@ -13,5 +13,5 @@ import { Component } from '@angular/core';
 })
 export class TopnavComponent {
   // private className = this.constructor.name;
-  private className = 'TopnavComponent';
+  className = 'TopnavComponent';
 }
