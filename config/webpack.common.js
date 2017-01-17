@@ -45,20 +45,6 @@ module.exports = {
   module: {
     rules: [
       /*
-       * Typescript loader support for .ts and Angular 2 async routes via .async.ts
-       * Replace templateUrl and stylesUrl with require()
-       *
-       * See: https://github.com/s-panferov/awesome-typescript-loader
-       * See: https://github.com/TheLarkInn/angular2-template-loader
-       */
-      {
-        test: /\.ts$/,
-        use: AOT ? ['awesome-typescript-loader?{configFileName: "tsconfig-aot.json"}', 'angular2-template-loader', 'ng-router-loader'] :
-          ['awesome-typescript-loader', 'angular2-template-loader', 'ng-router-loader'],
-        exclude: [/\.(spec|e2e)\.ts$/]
-      },
-
-      /*
        * Json loader support for *.json files.
        *
        * See: https://github.com/webpack/json-loader
@@ -170,7 +156,7 @@ module.exports = {
 
     new ngcWebpack.NgcWebpackPlugin({
       disabled: !AOT,
-      tsConfig: helpers.root('tsconfig-aot.json')
+      tsConfig: helpers.root('tsconfig.prod-aot.json')
     })
   ]
 };

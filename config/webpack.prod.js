@@ -6,6 +6,7 @@ var CompressionPlugin = require("compression-webpack-plugin");
 var helpers = require('./helpers');
 
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
+const AOT = helpers.hasNpmFlag('aot');
 
 module.exports = webpackMerge(commonConfig, {
   devtool: 'source-map',
@@ -16,6 +17,24 @@ module.exports = webpackMerge(commonConfig, {
     filename: '[name].[hash].js',
     chunkFilename: '[id].[hash].chunk.js'
   },
+
+  module: {
+    rules: [
+      /*
+       * Typescript loader support for .ts and Angular 2 async routes via .async.ts
+       * Replace templateUrl and stylesUrl with require()
+       *
+       * See: https://github.com/s-panferov/awesome-typescript-loader
+       * See: https://github.com/TheLarkInn/angular2-template-loader
+       */
+      {
+        test: /\.ts$/,
+        use: AOT ? 
+          ['awesome-typescript-loader?{configFileName: "tsconfig.prod-aot.json"}', 'angular2-template-loader', 'ng-router-loader'] :
+          ['awesome-typescript-loader?{configFileName: "tsconfig.prod.json"}', 'angular2-template-loader', 'ng-router-loader'],
+        exclude: [/\.(spec|e2e)\.ts$/]
+      }
+  ]},
 
   plugins: [
     new webpack.NoErrorsPlugin(),

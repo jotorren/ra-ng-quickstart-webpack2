@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "commonjs",
+    "module": "es2015",
     "moduleResolution": "node",
-    "sourceMap": true,
+    "sourceMap": false,
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "removeComments": false,
+    "removeComments": true,
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true,
     "allowSyntheticDefaultImports": true,
@@ -17,7 +17,7 @@
     "paths": {
         "app": ["app"]
     },
-    "lib": ["dom","es6"],
+    "lib": ["dom","es2015"],
     "typeRoots": ["node_modules/@types/","typings/modules"]
   },
   "include": [
@@ -30,6 +30,6 @@
     "src/environments",
     "**/*-aot.ts"
   ],
-  "compileOnSave": true,
+  "compileOnSave": false,
   "buildOnSave": false
 }

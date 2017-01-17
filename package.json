@@ -3,11 +3,11 @@
   "version": "2.0.0",
   "description": "ra-ng project quickstart with Webpack2",
   "scripts": {
-    "ngc":"ngc -p tsconfig-aot.json",
+    "ngc":"ngc -p tsconfig.prod-aot.json",
 
     "build:dev": "rimraf dist && webpack --config config/webpack.dev.js --progress --profile",
     "build:prod": "rimraf dist && webpack --config config/webpack.prod.js  --progress --profile --bail",
-    "build:prod:aot": "rimraf aot dist && webpack --config config/webpack.prod.js  --progress --profile --bail",
+    "build:prod:aot": "rimraf dist && webpack --config config/webpack.prod.js  --progress --profile --bail",
     "build": "npm run build:dev",
 
     "server:dev": "webpack-dev-server --config config/webpack.dev.js --progress --port 3000 --profile --watch --content-base src/",
