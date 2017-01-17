@@ -14,6 +14,7 @@ This seed repo serves as an Angular 2 starter for anyone looking to get up and r
 * Recommended design patterns and advanced Angular 2 components with [raNG](https://github.com/jotorren/ra-ng)
 * Tree shaking to automatically remove unused code from your production bundle.
 * Ready to go build system using Webpack2 for working with TypeScript.
+* **Ahead of Time (AoT)** compilation for rapid page loads of your production builds.
 
 ### Quick start
 ```bash
