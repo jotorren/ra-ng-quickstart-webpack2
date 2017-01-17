@@ -5,15 +5,15 @@
 # ra-ng Quickstart with Webpack2
 
 This seed repo serves as an Angular 2 starter for anyone looking to get up and running with Angular 2 and TypeScript.
-* Best practices in file and application organization for Angular 2.
-* Testing Angular 2 code with Jasmine and Karma.
-* Coverage with Istanbul and Karma
-* End-to-end Angular 2 code using Protractor.
-* Type manager with @types
+* Best practices in file and application organization for [Angular 2](https://angular.io/docs/ts/latest/guide/style-guide.html).
+* Testing Angular 2 code with [Jasmine](https://jasmine.github.io/) and [Karma](https://karma-runner.github.io/1.0/index.html).
+* **Coverage** with [Istanbul](https://github.com/gotwarlost/istanbul/) and Karma
+* End-to-end Angular 2 code using [Protractor](http://www.protractortest.org/).
+* Type manager with **@types**
 * Rich UI design with [primeNG](http://www.primefaces.org/primeng/)
 * Recommended design patterns and advanced Angular 2 components with [raNG](https://github.com/jotorren/ra-ng)
-* Tree shaking to automatically remove unused code from your production bundle.
-* Ready to go build system using Webpack2 for working with TypeScript.
+* **Tree shaking** to automatically remove unused code from your production bundle.
+* Ready to go build system using [Webpack2](https://github.com/webpack/webpack/) for working with TypeScript.
 * **Ahead of Time (AoT)** compilation for rapid page loads of your production builds.
 
 ### Quick start
@@ -42,6 +42,7 @@ go to [http://0.0.0.0:3000](http://0.0.0.0:3000) or [http://localhost:3000](http
 * [File Structure](#file-structure)
 * [Bootstrap](#bootstrap)
 * [Building](#building)
+  * [AoT](#aot)
 * [Contributors](#contributors)
 * [Support, Questions, or Feedback](#support-questions-or-feedback)
 * [License](#license)
@@ -215,6 +216,37 @@ If we look at the `index.html` content:
   </body>   
 </html>
 ```
+
+## AoT
+
+If you are using `Moment.js` in your application and you run rollup, very likely, it will end up with the 
+error: 
+```diff
+- Cannot call a namespace ('moment')
+```
+
+To solve that problem, you need to use 
+```ts
+import moment from 'moment'
+```
+instead of
+```ts
+import * as moment from 'moment';
+```
+
+And to avoid the resulting compile error:
+```diff
+- External module ''moment'' has no default export
+```
+try changing the `node_modules/moment/moment-node.d.ts` from 
+```ts
+export = moment;
+``` 
+to 
+```ts
+export default moment;
+``` 
+This will expose any missing files. (Then change it back.)
 
 # Contributors
 
