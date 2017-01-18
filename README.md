@@ -103,6 +103,7 @@ my-project/
  │   │   ├──app.component.ts
  │   │   ├──app.module.ts
  │   │   ├──app.routing.module.ts
+ │   │   ├──main-aot.ts
  │   │   └──main.ts
  │   │
  │   ├──assets/
@@ -122,6 +123,8 @@ my-project/
  ├──protractor.config.js
  ├──README.md
  ├──tsconfig.json
+ ├──tsconfig.prod.json
+ ├──tsconfig.prod-aotjson
  ├──tslint.json
  ├──typings.json
  └──webpack.config.json
@@ -145,7 +148,15 @@ import { Config } from './shared';
 import { AppModule } from './app.module';
 
 let selector = location.hostname;
+console.log(JSON.stringify({
+  logger: 'console',
+  message: 'Using configuration selector: [' + selector + ']'
+}));
 
+console.log(JSON.stringify({
+  logger: 'console',
+  message: 'Starting environment: [' + process.env.ENV + ']'
+}));
 if (process.env.ENV === 'production') {
   enableProdMode();
 }
@@ -169,23 +180,29 @@ For example, if we navigate to `http://localhost:3000`, the configuration servic
 in `environments/localhost.json`, but if we go to `http://myserver:80` (suposing the application is published on
 that web server), now the configuration service will look for the `environments/myserver.json` file.
 
+Note `main.ts` depends on `process.env` (`nodejs` property containing the user environment). 
+That dependency is resolved by `webpack` during the assembly process. 
+
 # Building
-The final artifact will include:
+Depending on the build parameters (**prod**, **aot**) `webpack` will generate:
 ```
 dist/
- ├──environments/           * runtime configuration json files
- ├──app/                    * i18n and static configuration json files
- ├──assets/                 * static resources (images, fonts, css, js...)
- │   ├──css/
- │   ├──font-awesome-4.6.3/              
- │   ├──img/
- │   └──js/
- │
- ├──polyfills.[hash].js     * the standard polyfills we require to run Angular applications in most modern browsers
- ├──vendor.[hash].js        * the vendor files we need: Angular2, lodash...
- ├──app.[hash].js           * our application code
- ├──favicon.ico
- └──index.html              * the application entry point                 
+ ├──src/                        * folder containing all compiled javascript and AoT (ngfactory, ngsummary) files
+ ├──node_modules/               * folder containing AoT json files (ngsummary) for external libraries
+ └──public/
+     ├──environments/           * runtime configuration json files
+     ├──app/                    * i18n and static configuration json files
+     ├──assets/                 * static resources (images, fonts, css, js...)
+     │   ├──css/                
+     │   ├──font-awesome-4.6.3/                
+     │   ├──img/                
+     │   └──js/                 
+     │
+     ├──polyfills.[hash].js     * the standard polyfills we require to run Angular applications in most modern browsers
+     ├──app.[hash].js           * our application code and its dependencies bundled in one minified file.
+     ├──favicon.ico
+     └──index.html              * the application entry point
+
 ```
 
 If we look at the `index.html` content:
@@ -211,7 +228,6 @@ If we look at the `index.html` content:
   <body>
     <app-qs>Loading...</app-qs>
     <script type="text/javascript" src="/polyfills.[hash].js"></script>
-    <script type="text/javascript" src="/vendor.[hash].js"></script>
     <script type="text/javascript" src="/app.[hash].js"></script>
   </body>   
 </html>
