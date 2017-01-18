@@ -11,7 +11,8 @@
     "build": "npm run build:dev",
 
     "server:dev": "webpack-dev-server --config config/webpack.dev.js --progress --port 3000 --profile --watch --content-base src/",
-    "server:prod": "http-server dist --cors",
+    "server:dev2": "http-server dist/public -p 3000 --cors",
+    "server:prod": "http-server dist/public --cors",
     "server": "npm run server:dev",
 
     "start": "npm run server:dev",
