@@ -6,7 +6,6 @@ var CompressionPlugin = require("compression-webpack-plugin");
 var helpers = require('./helpers');
 
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
-const AOT = helpers.hasNpmFlag('aot');
 
 module.exports = webpackMerge(commonConfig, {
   devtool: 'source-map',
@@ -29,9 +28,7 @@ module.exports = webpackMerge(commonConfig, {
        */
       {
         test: /\.ts$/,
-        use: AOT ? 
-          ['awesome-typescript-loader?{configFileName: "tsconfig.prod-aot.json"}', 'angular2-template-loader', 'ng-router-loader'] :
-          ['awesome-typescript-loader?{configFileName: "tsconfig.prod.json"}', 'angular2-template-loader', 'ng-router-loader'],
+        use: ['awesome-typescript-loader?{configFileName: "tsconfig.prod.json"}', 'angular2-template-loader', 'ng-router-loader'],
         exclude: [/\.(spec|e2e)\.ts$/]
       }
   ]},

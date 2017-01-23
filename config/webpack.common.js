@@ -1,20 +1,15 @@
-const ngcWebpack = require('ngc-webpack');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var helpers = require('./helpers');
 
-const AOT = helpers.hasNpmFlag('aot');
-
-if (AOT) {
-  console.log('AoT processing');
-}
+// const AOT = helpers.hasNpmFlag('aot');
 
 module.exports = {
   entry: {
     'polyfills': './src/polyfills.ts',
     // 'vendor': './src/vendor.ts',
-    'app': AOT ? './src/app/main-aot.ts' : './src/app/main.ts'
+    'app': './src/app/main.ts'
   },
 
   /*
@@ -24,7 +19,7 @@ module.exports = {
    */
   resolve: {
     extensions: ['.ts', '.js', '.json'],
-    alias: AOT ? {} : {
+    alias: {
       'app': helpers.root('src', 'app'),
 
       '@angular/common': '@angular/common/bundles/common.umd.js',
@@ -152,11 +147,6 @@ module.exports = {
 
     new HtmlWebpackPlugin({
       template: 'src/index.html'
-    }),
-
-    new ngcWebpack.NgcWebpackPlugin({
-      disabled: !AOT,
-      tsConfig: helpers.root('tsconfig.prod-aot.json')
     })
   ]
 };
