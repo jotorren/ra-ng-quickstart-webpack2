@@ -29,20 +29,19 @@ cd my-project
 # install the dependency with npm
 npm install
 
-# install typescript definitions
+# install primeNG typescript definitions
 typings install
 
 # start the server
 npm start
 ```
 
-go to [http://0.0.0.0:3000](http://0.0.0.0:3000) or [http://localhost:3000](http://localhost:3000) in your browser
+Go to [http://0.0.0.0:3000](http://0.0.0.0:3000) or [http://localhost:3000](http://localhost:3000) in your browser
 
 # Table of Contents
 * [File Structure](#file-structure)
 * [Bootstrap](#bootstrap)
 * [Building](#building)
-  * [AoT](#aot)
 * [Contributors](#contributors)
 * [Support, Questions, or Feedback](#support-questions-or-feedback)
 * [License](#license)
@@ -83,6 +82,12 @@ my-project/
  │   │   │   ├──topnav.component. [css | html | ts]
  │   │   │   ├──index.ts
  │   │   │   └──layout.module.ts
+ │   │   │ 
+ │   │   ├──featureA/                                 * example of lazy loaded module
+ │   │   │   ├──featureA.component.[css | html | ts]
+ │   │   │   ├──featureA.module.ts
+ │   │   │   ├──featureA.routing.module.ts
+ │   │   │   └──index.ts
  │   │   │
  │   │   ├──shared/
  │   │   │   ├──config/
@@ -104,7 +109,9 @@ my-project/
  │   │   ├──app.module.ts
  │   │   ├──app.routing.module.ts
  │   │   ├──main-aot.ts
- │   │   └──main.ts
+ │   │   ├──main.ts
+ │   │   ├──welcome.component.spec.ts
+ │   │   └──welcome.component.ts                      * dummy component
  │   │
  │   ├──assets/
  │   │   ├──css/
@@ -131,8 +138,8 @@ my-project/
  ```
 
 # Bootstrap
-Before starting the Angular 2 application, the configuration service also loads a set of properties that depend on the 
-**runtime** environment, which is identified using the **hostname**. Doing so, we can use the same artifact on different
+Before starting the Angular 2 application, the configuration service loads a set of properties that depend on the 
+**runtime** environment, which is identified using the URL's **hostname**. Doing so, we can use the same artifact on different
 environments without having to rebuild it.
 
 Keep in mind that properties read from the environment always overwrite any potential value defined in the static **Config** 
@@ -180,15 +187,18 @@ For example, if we navigate to `http://localhost:3000`, the configuration servic
 in `environments/localhost.json`, but if we go to `http://myserver:80` (suposing the application is published on
 that web server), now the configuration service will look for the `environments/myserver.json` file.
 
-Note `main.ts` depends on `process.env` (`nodejs` property containing the user environment). 
-That dependency is resolved by `webpack` during the assembly process. 
-
 # Building
-Depending on the build parameters (**prod**, **aot**) `webpack` will generate:
+
+You can generate the production bundles by means of:
+
+```
+npm run build:prod              * JiT compilation
+npm run build:prod:aot          * AoT compilation
+```
+
+Once the build process is complete, you will get:
 ```
 dist/
- ├──src/                        * folder containing all compiled javascript and AoT (ngfactory, ngsummary) files
- ├──node_modules/               * folder containing AoT json files (ngsummary) for external libraries
  └──public/
      ├──environments/           * runtime configuration json files
      ├──app/                    * i18n and static configuration json files
@@ -199,70 +209,19 @@ dist/
      │   └──js/                 
      │
      ├──polyfills.[hash].js     * the standard polyfills we require to run Angular applications in most modern browsers
-     ├──app.[hash].js           * our application code and its dependencies bundled in one minified file.
+     ├──polyfills.[hash].js.gz  * compressed version of polyfills.[hash].js
+     ├──app.[hash].js           * our application code and its dependencies bundled in one minified file
+     ├──app.[hash].js.gz        * compressed version of app.[hash].js
      ├──favicon.ico
-     └──index.html              * the application entry point
+     ├──index.html              * the application entry point
+     └──size.html               * bundle analyzer reports for polyfills.[hash].js and app.[hash].js
 
 ```
 
-If we look at the `index.html` content:
-```html
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <base href='/' >
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"> 
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-        <title>ra-ng quickstart webpack2</title>
+## Setting bundle's target environment
 
-        <link rel="stylesheet" type="text/css" href="./assets/font-awesome-4.6.3/css/font-awesome.min.css" />
-        <link rel="stylesheet" type="text/css" href="./assets/css/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="./assets/css/primeui-redmond-theme.css" />
-        <link rel="stylesheet" type="text/css" href="./assets/css/primeui-ng-all.min.css" />
-        <link rel="stylesheet" type="text/css" href="./assets/css/quill.snow.css" />
-        <link rel="stylesheet" type="text/css" href="./assets/css/quill.bubble.css" />
-	</head>
-
-  <!-- Display the application -->
-  <body>
-    <app-qs>Loading...</app-qs>
-    <script type="text/javascript" src="/polyfills.[hash].js"></script>
-    <script type="text/javascript" src="/app.[hash].js"></script>
-  </body>   
-</html>
-```
-
-## AoT
-
-If you are using `Moment.js` in your application and you run rollup, very likely, it will end up with the 
-error: 
-```diff
-- Cannot call a namespace ('moment')
-```
-
-To solve that problem, you need to use 
-```ts
-import moment from 'moment'
-```
-instead of
-```ts
-import * as moment from 'moment';
-```
-
-And to avoid the resulting compile error:
-```diff
-- External module ''moment'' has no default export
-```
-try changing the `node_modules/moment/moment-node.d.ts` from 
-```ts
-export = moment;
-``` 
-to 
-```ts
-export default moment;
-``` 
-This will expose any missing files. (Then change it back.)
+Note `main.ts` (and also `main-aot.ts`) depends on `process.env` (`nodejs` property containing the user environment). 
+That dependency is resolved by `webpack` during the assembly process. 
 
 # Contributors
 
