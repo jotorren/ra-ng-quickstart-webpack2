@@ -59,6 +59,7 @@ my-project/
  │   ├──webpack.common.js
  │   ├──webpack.dev.js
  │   ├──webpack.prod.js
+ │   ├──webpack.prod-aot.js
  │   └──webpack.test.js
  ├──dist/
  ├──doc/
