@@ -33,7 +33,8 @@ module.exports = {
 
       'ra-ng': 'ra-ng/bundles/ra-ng.umd.js',
       'lodash': 'lodash/lodash.js',
-      'crypto-js': 'crypto-js/crypto-js.js'
+      'crypto-js': 'crypto-js/crypto-js.js',
+      'moment': 'moment/moment.js'
     }
   },
 
