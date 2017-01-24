@@ -7,14 +7,97 @@
 This seed repo serves as an Angular 2 starter for anyone looking to get up and running with Angular 2 and TypeScript.
 * Best practices in file and application organization for [Angular 2](https://angular.io/docs/ts/latest/guide/style-guide.html).
 * Testing Angular 2 code with [Jasmine](https://jasmine.github.io/) and [Karma](https://karma-runner.github.io/1.0/index.html).
-* **Coverage** with [Istanbul](https://github.com/gotwarlost/istanbul/) and Karma
+* **Coverage** with [Istanbul](https://github.com/gotwarlost/istanbul/) and [Karma](https://karma-runner.github.io/1.0/index.html).
 * End-to-end Angular 2 code using [Protractor](http://www.protractortest.org/).
-* Type manager with **@types**
-* Rich UI design with [primeNG](http://www.primefaces.org/primeng/)
-* Recommended design patterns and advanced Angular 2 components with [raNG](https://github.com/jotorren/ra-ng)
-* **Tree shaking** to automatically remove unused code from your production bundle.
-* Ready to go build system using [Webpack2](https://github.com/webpack/webpack/) for working with TypeScript.
-* **Ahead of Time (AoT)** compilation for rapid page loads of your production builds.
+* Type manager with **@types**.
+* Rich UI design with [primeNG](http://www.primefaces.org/primeng/).
+* Recommended design patterns and advanced Angular 2 components with [raNG](https://github.com/jotorren/ra-ng).
+* Example of **lazy loaded module**. Keep in mind that, once the bundling process is complete, the resulting bundle contains any 'lazy' module.
+This means they are loaded when the browser reads the file and therefore they can not longer be considered 'lazy'.
+* `TypeScript` compiler target set to `ES5`. Read [John Papa's article](https://johnpapa.net/es5-es2015-typescript/) for further information.
+* **Ahead of Time (AoT)** compilation for rapid page loads of your production builds. This is achieved by means 
+of [@ngtools/webpack](https://www.npmjs.com/package/@ngtools/webpack).
+* **Tree shaking** to automatically remove unused code from your production bundle. Here, it's important to use the target 
+`ES5` together with the module-format `ES2015` because [Webpack2](https://github.com/webpack/webpack/) 
+**can only Tree Shake ES2015 modules** which have `import` and `export` statements. It's not important that the code itself 
+be written with `ES2015` syntax such as `class` and `const`. What matters is that the code uses ES `import` and `export` 
+statements rather than `require` statements.
+* **Cache busting” system** through a content hash that suggests to the browser that, when you made a change in your static 
+asset, that new file is actually different and should not be retrieved from the cache, but freshly downloaded.
+* Build-time **gzip** bundles using [compression-webpack-plugin](https://github.com/webpack-contrib/compression-webpack-plugin).
+
+## Limitations
+
+To bundle **angular lazy routes** this starter uses the version **1.0.2** of [ng-router-loader](https://github.com/shlomiassaf/ng-router-loader).
+There's a new version of that loader (**2.1.0** at the moment of writing this document), which requires the route to be defined using the Angular API:
+
+```ts
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+
+import { WelcomeComponent } from './welcome.component';
+import { FeatureAModule } from 'app/featureA/featureA.module';
+
+export function featureAFactory() {
+    return FeatureAModule;
+}
+
+@NgModule({
+    imports: [
+        RouterModule.forRoot([
+            { path: '', redirectTo: 'welcome', pathMatch: 'full' },
+            { path: 'welcome', component: WelcomeComponent },
+
+            { path: 'lazy-featureA', loadChildren: featureAFactory }
+        ])
+    ],
+    exports: [
+        RouterModule
+    ],
+    providers: [
+    ]
+})
+export class AppRoutingModule {
+    static RoutesMap = {
+        welcome: 'welcome',
+        featureA: '/lazy-featureA'
+    };
+}
+```
+
+Unfortunately this way of defining lazy routes is not supported by the current version of [@ngtools/webpack](https://www.npmjs.com/package/@ngtools/webpack), 
+driving us to define them in the following manner:
+
+```ts
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+
+import { WelcomeComponent } from './welcome.component';
+
+@NgModule({
+    imports: [
+        RouterModule.forRoot([
+            { path: '', redirectTo: 'welcome', pathMatch: 'full' },
+            { path: 'welcome', component: WelcomeComponent },
+
+            { path: 'lazy-featureA', loadChildren: './featureA/featureA.module#FeatureAModule' }
+        ])
+    ],
+    exports: [
+        RouterModule
+    ],
+    providers: [
+    ]
+})
+export class AppRoutingModule {
+    static RoutesMap = {
+        welcome: 'welcome',
+        featureA: '/lazy-featureA'
+    };
+}
+```
+
+And also forcing us to keep the 'old' version **1.0.2** of [ng-router-loader](https://github.com/shlomiassaf/ng-router-loader)
 
 ### Quick start
 ```bash
