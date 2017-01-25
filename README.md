@@ -22,7 +22,7 @@ of [@ngtools/webpack](https://www.npmjs.com/package/@ngtools/webpack).
 **can only Tree Shake ES2015 modules** which have `import` and `export` statements. It's not important that the code itself 
 be written with `ES2015` syntax such as `class` and `const`. What matters is that the code uses ES `import` and `export` 
 statements rather than `require` statements.
-* **Cache busting” system** through a content hash that suggests to the browser that, when you made a change in your static 
+* **Cache busting system** through a content hash that suggests to the browser that, when you made a change in your static 
 asset, that new file is actually different and should not be retrieved from the cache, but freshly downloaded.
 * Build-time **gzip** bundles using [compression-webpack-plugin](https://github.com/webpack-contrib/compression-webpack-plugin).
 * Inspection of the bundles with [webpack-bundle-analyzer](https://github.com/th0r/webpack-bundle-analyzer). 
