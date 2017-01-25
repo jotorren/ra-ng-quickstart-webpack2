@@ -25,6 +25,9 @@ statements rather than `require` statements.
 * **Cache busting” system** through a content hash that suggests to the browser that, when you made a change in your static 
 asset, that new file is actually different and should not be retrieved from the cache, but freshly downloaded.
 * Build-time **gzip** bundles using [compression-webpack-plugin](https://github.com/webpack-contrib/compression-webpack-plugin).
+* Inspection of the bundles with [webpack-bundle-analyzer](https://github.com/th0r/webpack-bundle-analyzer). 
+It analyzes the source map generated with the bundle and draws a map of all dependencies, showing exactly which application 
+and Angular modules and classes are included in the bundle.
 
 ## Limitations
 
